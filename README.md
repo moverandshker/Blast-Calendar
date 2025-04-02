@@ -61,6 +61,44 @@ These instructions assume you are using a Debian-based Linux system like Raspber
 4.  Open a web browser **on the Raspberry Pi** and navigate to `http://localhost:5000`.
 5.  To access it from another device on the same network, find your Raspberry Pi's IP address (e.g., using `ip addr show`) and navigate to `http://<RaspberryPi_IP>:5000` in the browser on the other device.
 
+## Autostart on Reboot
+
+To ensure the Flask app starts automatically on reboot, follow these steps:
+
+1. **Create a systemd service file**:
+   ```bash
+   sudo nano /etc/systemd/system/blast-calendar.service
+   ```
+
+2. **Add the following content**:
+   ```ini
+   [Unit]
+   Description=Blast Calendar Flask App
+   After=network.target
+
+   [Service]
+   User=pi
+   WorkingDirectory=/home/pi/Blast-Calendar
+   ExecStart=/home/pi/Blast-Calendar/venv/bin/python app.py
+   Restart=always
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. **Enable and start the service**:
+   ```bash
+   sudo systemctl enable blast-calendar.service
+   sudo systemctl start blast-calendar.service
+   ```
+
+4. **Verify the service is running**:
+   ```bash
+   sudo systemctl status blast-calendar.service
+   ```
+
+Now, the app will start automatically on reboot.
+
 ## Features
 
 ### Seasonal Themes & Animations
