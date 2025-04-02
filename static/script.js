@@ -207,49 +207,76 @@ document.addEventListener('DOMContentLoaded', () => {
     applyThemeAnimations(); // Add this call
 });
 
-// Function to create theme-based animations
+// --- Theme Animations ---
+
+/**
+ * Applies animations based on the current theme.
+ */
 function applyThemeAnimations() {
     const theme = document.body.getAttribute('data-theme');
-    console.log("Applying animations for theme:", theme); // Debug log
     const container = document.getElementById('animation-container');
-    if (!container) return; // Exit if container not found
+    if (!container) {
+        console.error("Animation container not found!");
+        return; // Exit if container not found
+    }
+    container.innerHTML = ''; // Clear previous animations
 
-    console.log("Animation container found:", container); // Debug log
+    console.log("Applying animations for theme:", theme); // Debug log
 
-     // Clear previous animations if any (useful for theme toggling)
-     container.innerHTML = '';
- 
-     if (theme === 'winter' || theme === 'christmas') {
-        console.log("Calling createSnowflakes..."); // Debug log
-         createSnowflakes(container, 50); // Create 50 snowflakes
-     }
-     // Add other themes here later (e.g., valentines, canadaday)
-     // else if (theme === 'valentines') {
-     //     createHearts(container, 30);
-     // }
+    // Map themes to animation parameters
+    const animationMap = {
+        'winter': { character: '❄️', className: 'snowflake', animationName: 'fall', quantity: 50 },
+        'christmas': { character: '❄️', className: 'snowflake', animationName: 'fall', quantity: 50 },
+        'valentines': { character: '❤️', className: 'heart', animationName: 'fall-heart', quantity: 30 },
+        'stpatrick': { character: '☘️', className: 'shamrock', animationName: 'fall-shamrock', quantity: 40 },
+        'easter': { character: '🥚', className: 'easter-egg', animationName: 'fall-egg', quantity: 30 },
+        'spring': { character: '🌸', className: 'flower', animationName: 'fall-flower', quantity: 40 },
+        'summer': { character: '☀️', className: 'sun', animationName: 'fall-sun', quantity: 20 },
+        'canadaday': { character: '🍁', className: 'maple-leaf', animationName: 'fall-leaf', quantity: 30 },
+        'autumn': { character: '🍂', className: 'autumn-leaf', animationName: 'fall-leaf', quantity: 40 },
+        'halloween': { character: '🦇', className: 'bat', animationName: 'fall-bat', quantity: 25 }
+        // Add other themes here if they need animations
+    };
+
+    if (animationMap[theme]) {
+        const params = animationMap[theme];
+        createFallingElements(container, params.quantity, params.character, params.className, params.animationName);
+    } else {
+        console.log("No animation defined for theme:", theme); // Debug log
+    }
 }
 
-// Function to create snowflake elements
-function createSnowflakes(container, count) {
-     for (let i = 0; i < count; i++) {
-        console.log("Creating snowflake:", i); // Debug log
-         const flake = document.createElement('div');
-         flake.classList.add('snowflake');
-         flake.textContent = '❄️'; // Restore snowflake character
- 
-         // Randomize properties for natural look
-         flake.style.left = `${Math.random() * 100}vw`; // Random horizontal start
-         const duration = 5 + Math.random() * 10; // Random duration (5-15s)
-         flake.style.animationDuration = `${duration}s`; 
-         flake.style.animationDelay = `${Math.random() * duration}s`; // Random delay (start staggered)
-         flake.style.fontSize = `${0.5 + Math.random() * 1}em`; // Restore random size
-         // Adjust horizontal drift in animation slightly per flake
-         const drift = (Math.random() - 0.5) * 10; // Random horizontal drift (-5vw to +5vw)
-         flake.style.animationName = 'fall'; // Ensure animation name is set
-         // We need to dynamically create keyframes or use CSS variables if we want unique drifts per flake easily.
-         // For simplicity, the CSS keyframe provides a base drift for now.
-         // A more complex approach would generate unique @keyframes rule per flake.
+/**
+ * Creates multiple falling elements (like snowflakes, hearts, etc.) and adds them to the container.
+ * @param {HTMLElement} container - The container to add elements to.
+ * @param {number} quantity - The number of elements to create.
+ * @param {string} character - The character/emoji to display.
+ * @param {string} className - The CSS class to apply to each element.
+ * @param {string} animationName - The base name for the CSS animation.
+ */
+function createFallingElements(container, quantity, character, className, animationName) {
+    if (!container) return;
+    console.log(`Creating ${quantity} ${className} elements with character '${character}' using animation '${animationName}'`); // Debug
 
-         container.appendChild(flake);
+    for (let i = 0; i < quantity; i++) {
+         const element = document.createElement('div');
+         element.classList.add(className); // Use the specific class name
+         element.textContent = character; // Use the specific character
+
+          // Randomize properties for natural look
+          element.style.left = `${Math.random() * 100}vw`; // Random horizontal start
+          const duration = 8 + Math.random() * 10; // Random duration (8-18s) - slightly longer base
+          element.style.animationDuration = `${duration}s`;
+          element.style.animationDelay = `${Math.random() * duration}s`; // Random delay (start staggered)
+          element.style.fontSize = `${0.8 + Math.random() * 0.7}em`; // Random size (0.8em to 1.5em)
+
+          // Set the animation name
+          element.style.animationName = animationName;
+
+          // Optional: Adjust drift slightly per element if needed (can be done in CSS keyframes too)
+          // const drift = (Math.random() - 0.5) * 10; // Example drift
+          // element.style.setProperty('--drift', `${drift}vw`); // Use CSS variable in keyframes if desired
+
+          container.appendChild(element);
      }
 }

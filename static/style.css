@@ -210,11 +210,28 @@ body[data-theme='autumn'] {
     position: absolute;
     top: -10%; /* Start above the screen */
     color: #cccccc; /* Light grey for better contrast on light themes */
-    font-size: 1em; /* Default size */
+    font-size: 1em; /* Default size, JS might override */
     font-family: Arial, sans-serif; /* Use a common font */
     user-select: none;
     pointer-events: none;
-    animation: fall linear infinite;
+    animation: fall linear infinite; /* Animation name set by JS */
+}
+
+/* Add similar base styles for other elements */
+.heart, .shamrock, .easter-egg, .flower, .sun, .maple-leaf, .autumn-leaf, .bat {
+    position: absolute;
+    top: -10%;
+    font-family: Arial, sans-serif; /* Consider emoji font if needed */
+    user-select: none;
+    pointer-events: none;
+    animation: linear infinite; /* Base properties, name/duration/delay set by JS */
+    color: inherit; /* Let emoji color show or override per class if needed */
+    font-size: 1em; /* Default, JS overrides */
+}
+
+/* Example specific overrides if needed */
+.sun {
+    color: #ffcc00; /* Make suns yellow */
 }
 
 @keyframes fall {
@@ -227,6 +244,48 @@ body[data-theme='autumn'] {
         opacity: 0.5;
     }
 }
+
+/* Keyframes for other elements (Variations of fall) */
+
+@keyframes fall-heart { /* Hearts with a little wobble */
+    0% { transform: translateY(0vh) translateX(0vw) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(3vw) rotate(15deg); opacity: 0.7; }
+}
+
+@keyframes fall-shamrock { /* Shamrocks drift more horizontally */
+    0% { transform: translateY(0vh) translateX(0vw); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(15vw); opacity: 0.6; }
+}
+
+@keyframes fall-egg { /* Eggs fall straightish */
+    0% { transform: translateY(0vh) translateX(0vw) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(1vw) rotate(5deg); opacity: 0.8; }
+}
+
+@keyframes fall-flower { /* Flowers gently drift and fade */
+    0% { transform: translateY(0vh) translateX(0vw); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(-5vw); opacity: 0.4; }
+}
+
+@keyframes fall-sun { /* Suns fall slower and straight */
+     0% { transform: translateY(0vh) translateX(0vw) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) translateX(0vw) rotate(30deg); opacity: 0.9; }
+}
+
+
+@keyframes fall-leaf { /* Leaves flutter down */
+    0% { transform: translateY(0vh) translateX(0vw) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(50vh) translateX(10vw) rotate(45deg); opacity: 0.8; }
+    100% { transform: translateY(110vh) translateX(-5vw) rotate(-30deg); opacity: 0.3; }
+}
+
+@keyframes fall-bat { /* Bats fly more erratically */
+    0% { transform: translateY(0vh) translateX(0vw); opacity: 1; }
+    33% { transform: translateY(40vh) translateX(15vw); opacity: 0.9; }
+    66% { transform: translateY(70vh) translateX(-10vw); opacity: 0.8; }
+    100% { transform: translateY(110vh) translateX(5vw); opacity: 0.7; }
+}
+
 
 body, html {
     margin: 0;
