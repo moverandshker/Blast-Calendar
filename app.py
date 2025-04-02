@@ -154,7 +154,7 @@ def index():
     now = datetime.now()
     today = now.date() # Get today's date object
     current_year = today.year
-    # current_month = today.month # We'll use 'today' for checks now
+    current_month = today.month # We'll use 'today' for checks now
 
     current_theme = 'default' # Start with default
 

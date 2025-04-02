@@ -194,15 +194,48 @@ body[data-theme='autumn'] {
     --event-text: #b71c1c; /* Dark Red */
 }
 
+/* --- Theme Animations --- */
+#animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow clicks to pass through */
+    overflow: hidden; 
+    z-index: 10; /* Make it the top layer */
+}
+
+.snowflake {
+    position: absolute;
+    top: -10%; /* Start above the screen */
+    color: #cccccc; /* Light grey for better contrast on light themes */
+    font-size: 1em; /* Default size */
+    font-family: Arial, sans-serif; /* Use a common font */
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0vh) translateX(0vw);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(5vw); /* Fall down and slightly right */
+        opacity: 0.5;
+    }
+}
+
 body, html {
     margin: 0;
     padding: 0;
     height: 100vh; /* Use viewport height */
-    display: flex;
-    flex-direction: column;
+    display: flex; /* Restore */
+    flex-direction: column; /* Restore */
     background-color: var(--body-bg); /* Use variable */
     color: var(--day-text); /* Use variable */
-    overflow: hidden; /* Prevent body scrollbars */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 

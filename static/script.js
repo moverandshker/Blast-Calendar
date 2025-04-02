@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     localStorage.removeItem('forceDefaultTheme');
                 }
+                applyThemeAnimations(); // Re-apply animations after theme change
             });
         }
     }
@@ -202,4 +203,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optional: Auto-refresh every N minutes (matching cache interval?)
     // setInterval(() => loadCalendar(currentMoment), 15 * 60 * 1000);
+
+    applyThemeAnimations(); // Add this call
 });
+
+// Function to create theme-based animations
+function applyThemeAnimations() {
+    const theme = document.body.getAttribute('data-theme');
+    console.log("Applying animations for theme:", theme); // Debug log
+    const container = document.getElementById('animation-container');
+    if (!container) return; // Exit if container not found
+
+    console.log("Animation container found:", container); // Debug log
+
+     // Clear previous animations if any (useful for theme toggling)
+     container.innerHTML = '';
+ 
+     if (theme === 'winter' || theme === 'christmas') {
+        console.log("Calling createSnowflakes..."); // Debug log
+         createSnowflakes(container, 50); // Create 50 snowflakes
+     }
+     // Add other themes here later (e.g., valentines, canadaday)
+     // else if (theme === 'valentines') {
+     //     createHearts(container, 30);
+     // }
+}
+
+// Function to create snowflake elements
+function createSnowflakes(container, count) {
+     for (let i = 0; i < count; i++) {
+        console.log("Creating snowflake:", i); // Debug log
+         const flake = document.createElement('div');
+         flake.classList.add('snowflake');
+         flake.textContent = '❄️'; // Restore snowflake character
+ 
+         // Randomize properties for natural look
+         flake.style.left = `${Math.random() * 100}vw`; // Random horizontal start
+         const duration = 5 + Math.random() * 10; // Random duration (5-15s)
+         flake.style.animationDuration = `${duration}s`; 
+         flake.style.animationDelay = `${Math.random() * duration}s`; // Random delay (start staggered)
+         flake.style.fontSize = `${0.5 + Math.random() * 1}em`; // Restore random size
+         // Adjust horizontal drift in animation slightly per flake
+         const drift = (Math.random() - 0.5) * 10; // Random horizontal drift (-5vw to +5vw)
+         flake.style.animationName = 'fall'; // Ensure animation name is set
+         // We need to dynamically create keyframes or use CSS variables if we want unique drifts per flake easily.
+         // For simplicity, the CSS keyframe provides a base drift for now.
+         // A more complex approach would generate unique @keyframes rule per flake.
+
+         container.appendChild(flake);
+     }
+}
