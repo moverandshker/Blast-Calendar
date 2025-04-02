@@ -1,10 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calendarGrid = document.getElementById('calendar-grid');
-    const monthYearTitle = document.getElementById('month-year-title');
+    const monthYearTitle = document.getElementById('month-year');
     const prevMonthButton = document.getElementById('prev-month');
     const nextMonthButton = document.getElementById('next-month');
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const bodyElement = document.body;
 
     let currentMoment = new Date(); // Use native Date for simplicity now
+
+    const detectedTheme = bodyElement.dataset.theme || 'default';
+    let userPrefersDefault = localStorage.getItem('forceDefaultTheme') === 'true';
+
+    // Apply user preference on load if applicable
+    if (userPrefersDefault && detectedTheme !== 'default') {
+        bodyElement.dataset.theme = 'default';
+    }
+
+    // --- Theme Toggle Logic ---
+    if (detectedTheme === 'default') {
+        // Hide toggle if no special theme is active initially
+        // AND the user hasn't previously forced default (edge case)
+        if (themeToggleButton && !userPrefersDefault) { 
+            themeToggleButton.style.display = 'none';
+        }
+    } else {
+        // Show the button if a theme is detected (it might be hidden by default)
+        if (themeToggleButton) themeToggleButton.style.display = 'inline-block'; 
+        
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const currentTheme = bodyElement.dataset.theme;
+                const newTheme = (currentTheme === 'default') ? detectedTheme : 'default';
+                bodyElement.dataset.theme = newTheme;
+
+                // Update localStorage
+                if (newTheme === 'default') {
+                    localStorage.setItem('forceDefaultTheme', 'true');
+                } else {
+                    localStorage.removeItem('forceDefaultTheme');
+                }
+                applyThemeAnimations(); // Re-apply animations after theme change
+            });
+        }
+    }
+    // -------------------------
 
     async function fetchEvents(year, month) {
         console.log(`Fetching events for ${year}-${month}...`);
@@ -164,4 +203,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optional: Auto-refresh every N minutes (matching cache interval?)
     // setInterval(() => loadCalendar(currentMoment), 15 * 60 * 1000);
+
+    applyThemeAnimations(); // Add this call
 });
+
+// --- Theme Animations ---
+
+/**
+ * Applies animations based on the current theme.
+ */
+function applyThemeAnimations() {
+    const theme = document.body.getAttribute('data-theme');
+    const container = document.getElementById('animation-container');
+    if (!container) {
+        console.error("Animation container not found!");
+        return; // Exit if container not found
+    }
+    container.innerHTML = ''; // Clear previous animations
+
+    console.log("Applying animations for theme:", theme); // Debug log
+
+    // Map themes to animation parameters
+    const animationMap = {
+        'winter': { character: '❄️', className: 'snowflake', animationName: 'fall', quantity: 50 },
+        'christmas': { character: '❄️', className: 'snowflake', animationName: 'fall', quantity: 50 },
+        'valentines': { character: '❤️', className: 'heart', animationName: 'fall-heart', quantity: 30 },
+        'stpatrick': { character: '☘️', className: 'shamrock', animationName: 'fall-shamrock', quantity: 40 },
+        'easter': { character: '🥚', className: 'easter-egg', animationName: 'fall-egg', quantity: 30 },
+        'spring': { character: '🌸', className: 'flower', animationName: 'fall-flower', quantity: 40 },
+        'summer': { character: '☀️', className: 'sun', animationName: 'fall-sun', quantity: 20 },
+        'canadaday': { character: '🍁', className: 'maple-leaf', animationName: 'fall-leaf', quantity: 30 },
+        'autumn': { character: '🍂', className: 'autumn-leaf', animationName: 'fall-leaf', quantity: 40 },
+        'halloween': { character: '🦇', className: 'bat', animationName: 'fall-bat', quantity: 25 }
+        // Add other themes here if they need animations
+    };
+
+    if (animationMap[theme]) {
+        const params = animationMap[theme];
+        createFallingElements(container, params.quantity, params.character, params.className, params.animationName);
+    } else {
+        console.log("No animation defined for theme:", theme); // Debug log
+    }
+}
+
+/**
+ * Creates multiple falling elements (like snowflakes, hearts, etc.) and adds them to the container.
+ * @param {HTMLElement} container - The container to add elements to.
+ * @param {number} quantity - The number of elements to create.
+ * @param {string} character - The character/emoji to display.
+ * @param {string} className - The CSS class to apply to each element.
+ * @param {string} animationName - The base name for the CSS animation.
+ */
+function createFallingElements(container, quantity, character, className, animationName) {
+    if (!container) return;
+    console.log(`Creating ${quantity} ${className} elements with character '${character}' using animation '${animationName}'`); // Debug
+
+    for (let i = 0; i < quantity; i++) {
+         const element = document.createElement('div');
+         element.classList.add(className); // Use the specific class name
+         element.textContent = character; // Use the specific character
+
+          // Randomize properties for natural look
+          element.style.left = `${Math.random() * 100}vw`; // Random horizontal start
+          const duration = 8 + Math.random() * 10; // Random duration (8-18s) - slightly longer base
+          element.style.animationDuration = `${duration}s`;
+          element.style.animationDelay = `${Math.random() * duration}s`; // Random delay (start staggered)
+          element.style.fontSize = `${0.8 + Math.random() * 0.7}em`; // Random size (0.8em to 1.5em)
+
+          // Set the animation name
+          element.style.animationName = animationName;
+
+          // Optional: Adjust drift slightly per element if needed (can be done in CSS keyframes too)
+          // const drift = (Math.random() - 0.5) * 10; // Example drift
+          // element.style.setProperty('--drift', `${drift}vw`); // Use CSS variable in keyframes if desired
+
+          container.appendChild(element);
+     }
+}

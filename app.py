@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import requests
 from icalendar import Calendar
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta, date
 import pytz
 import os
 from dotenv import load_dotenv
@@ -151,8 +151,64 @@ def get_events_for_month(year, month):
 
 @app.route('/')
 def index():
-    # Render the main HTML page
-    return render_template('index.html')
+    now = datetime.now()
+    today = now.date() # Get today's date object
+    current_year = today.year
+    current_month = today.month # We'll use 'today' for checks now
+
+    current_theme = 'default' # Start with default
+
+    # 1. Define precise date-range checks (most specific first)
+    #    Format: {'theme': name, 'start': (month, day), 'end': (month, day)}
+    precise_theme_rules = [
+        # Using approx. week before + day of
+        {'theme': 'valentines', 'start': (2, 7),  'end': (2, 14)},
+        {'theme': 'stpatricks', 'start': (3, 10), 'end': (3, 17)},
+        # Canada Day spans months, handle carefully
+        {'theme': 'canadaday',  'start': (6, 24), 'end': (7, 1)}, 
+        {'theme': 'halloween',  'start': (10, 24),'end': (10, 31)},
+        {'theme': 'christmas',  'start': (12, 18),'end': (12, 25)},
+    ]
+
+    for rule in precise_theme_rules:
+        try:
+            start_date = date(current_year, rule['start'][0], rule['start'][1])
+            end_date = date(current_year, rule['end'][0], rule['end'][1])
+            
+            # Handle year wrap for end date if necessary (e.g., rule starts late Dec, ends early Jan - not needed for current rules)
+            # if end_date < start_date: end_date = date(current_year + 1, rule['end'][0], rule['end'][1])
+
+            if start_date <= today <= end_date:
+                current_theme = rule['theme']
+                break # Found the most specific theme, stop checking
+        except ValueError: # Handle invalid dates like Feb 29 on non-leap year if needed
+             continue # Skip rule if date is invalid for the year
+
+    # 2. If no precise theme matched, check for month-long themes
+    if current_theme == 'default':
+        month_themes = {
+            1: 'winter', 
+            # Feb: Handled by valentines range
+            # Mar: Handled by stpatricks range
+            4: 'easter',    # Keeping Easter for whole month for simplicity
+            5: 'spring',    # Spring starts May
+            6: 'summer',    # Summer starts June (if not Canada Day week)
+            # Jul: Handled by Canada Day range
+            # Aug: Default
+            9: 'autumn',    # Autumn starts Sept
+            # Oct: Handled by Halloween range
+            # Nov: Default
+            # Dec: Handled by Christmas range
+        }
+        current_theme = month_themes.get(today.month, 'default')
+
+    print(f"Current date: {today}, Theme determined as: {current_theme}")
+
+    # Pass the current year, month, and theme to the template
+    return render_template('index.html',
+                           current_year=current_year,
+                           current_month=today.month, # Pass original month for display
+                           current_theme=current_theme)
 
 
 @app.route('/events/<int:year>/<int:month>')

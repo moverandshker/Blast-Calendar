@@ -61,6 +61,26 @@ These instructions assume you are using a Debian-based Linux system like Raspber
 4.  Open a web browser **on the Raspberry Pi** and navigate to `http://localhost:5000`.
 5.  To access it from another device on the same network, find your Raspberry Pi's IP address (e.g., using `ip addr show`) and navigate to `http://<RaspberryPi_IP>:5000` in the browser on the other device.
 
+## Features
+
+### Seasonal Themes & Animations
+
+The calendar automatically adjusts its appearance based on the current date to reflect different seasons and holidays:
+
+*   **Color Schemes:** The header, buttons, and calendar grid change colors to match the active theme (e.g., orange/purple for Halloween, red/pink for Valentine's Day).
+*   **Animations:** Certain themes include subtle background animations:
+    *   Winter/Christmas: Falling snowflakes (❄️)
+    *   Valentine's Day: Falling hearts (❤️)
+    *   St. Patrick's Day: Falling shamrocks (☘️)
+    *   Easter: Falling eggs (🥚)
+    *   Spring: Falling flowers (🌸)
+    *   Summer: Falling suns (☀️)
+    *   Canada Day: Falling maple leaves (🍁)
+    *   Autumn: Falling autumn leaves (🍂)
+    *   Halloween: Falling bats (🦇)
+
+The theme logic is determined in `app.py`, and the animations are handled by `static/script.js` and `static/style.css`.
+
 ## Full Screen Mode (Raspberry Pi / Kiosk)
 
 To automatically run the browser in full-screen (kiosk) mode when the Raspberry Pi boots (assuming Raspberry Pi OS with desktop environment and Chromium):
