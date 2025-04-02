@@ -1,13 +1,209 @@
 /* Basic Reset & Body Styling */
+:root {
+    /* Default Theme Variables */
+    --body-bg: #f8f9fa; /* Light grey */
+    --header-bg: #e9ecef; /* Medium grey */
+    --header-text: #495057; /* Darker grey */
+    --button-bg: #dee2e6;
+    --button-hover-bg: #ced4da;
+    --grid-bg: #d9dde1; /* Grid line color */
+    --day-header-bg: #f0f2f5; /* Day name header bg (Sun, Mon...) */
+    --day-header-text: #606770;
+    --day-bg: #ffffff; /* Day cell background */
+    --day-text: #212529; /* Default text color */
+    --date-number-text: #606770;
+    --event-bg: #e7f3ff; /* Light blue for events */
+    --event-text: #0a58ca;
+    --scrollbar-thumb: #ccc;
+    --scrollbar-track: #eee;
+
+    font-family: 'Inter', sans-serif;
+}
+
+/* Halloween Theme Overrides */
+body[data-theme='halloween'] {
+    --body-bg: #1a1a1a; /* Very dark grey */
+    --header-bg: #ff7518; /* Orange */
+    --header-text: #1a1a1a;
+    --button-bg: #e85d04;
+    --button-hover-bg: #d05000;
+    --grid-bg: #444;
+    --day-header-bg: #581845; /* Dark Purple */
+    --day-header-text: #ff7518;
+    --day-bg: #2b2b2b; /* Dark grey day cell */
+    --day-text: #f8f9fa; /* Light text */
+    --date-number-text: #aaa;
+    --event-bg: #581845; /* Purple for events */
+    --event-text: #ffb703; /* Yellow text */
+    --scrollbar-thumb: #ff7518;
+    --scrollbar-track: #555;
+}
+
+/* Christmas Theme Overrides */
+body[data-theme='christmas'] {
+    --body-bg: #f0f8ff; /* Alice Blue */
+    --header-bg: #c82333; /* Dark Red */
+    --header-text: #ffffff;
+    --button-bg: #218838; /* Green */
+    --button-hover-bg: #1e7e34;
+    --grid-bg: #b8daff;
+    --day-header-bg: #d4edda; /* Light Green */
+    --day-header-text: #155724; /* Dark Green */
+    --day-bg: #ffffff;
+    --day-text: #212529;
+    --date-number-text: #dc3545; /* Red */
+    --event-bg: #f8d7da; /* Light Red */
+    --event-text: #721c24; /* Dark Red */
+}
+
+/* Winter Theme */
+body[data-theme='winter'] {
+    --body-bg: #e6f7ff; /* Very light blue */
+    --header-bg: #005f73; /* Deep Teal */
+    --header-text: #ffffff;
+    --button-bg: #0a9396; /* Teal */
+    --button-hover-bg: #007f80;
+    --grid-bg: #94d2bd; /* Mint */
+    --day-header-bg: #caf0f8; /* Light Cyan */
+    --day-header-text: #023e8a; /* Dark Blue */
+    --day-bg: #ffffff;
+    --day-text: #001219; /* Very Dark Blue */
+    --date-number-text: #0077b6; /* Blue */
+    --event-bg: #ade8f4; /* Light Sky Blue */
+    --event-text: #03045e; /* Navy */
+}
+
+/* Valentine's Day Theme */
+body[data-theme='valentines'] {
+    --body-bg: #fff0f5; /* Lavender Blush */
+    --header-bg: #d90429; /* Bright Red */
+    --header-text: #ffffff;
+    --button-bg: #ff4d6d; /* Pink */
+    --button-hover-bg: #e03e5b;
+    --grid-bg: #ffccd5; /* Light Pink */
+    --day-header-bg: #ffb3c1; /* Medium Pink */
+    --day-header-text: #8d0801; /* Dark Red */
+    --day-bg: #ffffff;
+    --day-text: #2d0000;
+    --date-number-text: #bf0603; /* Red */
+    --event-bg: #ffb3c1; 
+    --event-text: #8d0801;
+}
+
+/* St. Patrick's Day Theme */
+body[data-theme='stpatricks'] {
+    --body-bg: #f0fff4; /* Honeydew */
+    --header-bg: #137a2d; /* Dark Green */
+    --header-text: #ffffff;
+    --button-bg: #28a745; /* Green */
+    --button-hover-bg: #218838;
+    --grid-bg: #a2d4ab; 
+    --day-header-bg: #c3e6cb; /* Light Green */
+    --day-header-text: #155724; /* Dark Green */
+    --day-bg: #ffffff;
+    --day-text: #0b2e13;
+    --date-number-text: #ffc107; /* Gold */
+    --event-bg: #c3e6cb; 
+    --event-text: #155724;
+}
+
+/* Easter Theme */
+body[data-theme='easter'] {
+    --body-bg: #e0ffff; /* Light Cyan */
+    --header-bg: #dda0dd; /* Plum */
+    --header-text: #4b0082; /* Indigo */
+    --button-bg: #ffdab9; /* Peach Puff */
+    --button-hover-bg: #fbcaf9; /* Pastel Pink */
+    --grid-bg: #f0e68c; /* Khaki */
+    --day-header-bg: #add8e6; /* Light Blue */
+    --day-header-text: #00008b; /* Dark Blue */
+    --day-bg: #fffacd; /* Lemon Chiffon */
+    --day-text: #556b2f; /* Dark Olive Green */
+    --date-number-text: #ffb6c1; /* Light Pink */
+    --event-bg: #98fb98; /* Pale Green */
+    --event-text: #228b22; /* Forest Green */
+}
+
+/* Spring Theme */
+body[data-theme='spring'] {
+    --body-bg: #f5fff5; /* Lighter Honeydew */
+    --header-bg: #4caf50; /* Medium Green */
+    --header-text: #ffffff;
+    --button-bg: #8bc34a; /* Light Green */
+    --button-hover-bg: #7caf3e;
+    --grid-bg: #c8e6c9;
+    --day-header-bg: #fff9c4; /* Pale Yellow */
+    --day-header-text: #f57c00; /* Orange */
+    --day-bg: #ffffff;
+    --day-text: #33691e; /* Dark Green */
+    --date-number-text: #ff6f61; /* Coral Pink */
+    --event-bg: #e1bee7; /* Light Purple */
+    --event-text: #6a1b9a; /* Dark Purple */
+}
+
+/* Summer Theme */
+body[data-theme='summer'] {
+    --body-bg: #fffde7; /* Light Yellow */
+    --header-bg: #03a9f4; /* Bright Blue */
+    --header-text: #ffffff;
+    --button-bg: #ffeb3b; /* Yellow */
+    --button-hover-bg: #fdd835; /* Darker Yellow */
+    --header-text: #333; /* Dark text on yellow button */
+    --grid-bg: #b3e5fc; /* Light Blue */
+    --day-header-bg: #ffcc80; /* Light Orange */
+    --day-header-text: #e65100; /* Dark Orange */
+    --day-bg: #ffffff;
+    --day-text: #01579b; /* Dark Blue */
+    --date-number-text: #f44336; /* Red */
+    --event-bg: #c8e6c9; /* Light Green */
+    --event-text: #2e7d32; /* Dark Green */
+}
+
+/* Canada Day Theme */
+body[data-theme='canadaday'] {
+    --body-bg: #ffffff;
+    --header-bg: #ff0000; /* Red */
+    --header-text: #ffffff;
+    --button-bg: #f8f9fa; /* White/Light Grey */
+    --button-hover-bg: #e2e6ea;
+    --header-text: #d90000; /* Red text on white button */
+    --grid-bg: #ffcccb; /* Light Red */
+    --day-header-bg: #e9ecef; /* Light Grey */
+    --day-header-text: #343a40; /* Dark Grey */
+    --day-bg: #ffffff;
+    --day-text: #212529;
+    --date-number-text: #ff0000; /* Red */
+    --event-bg: #f8d7da; /* Light Red */
+    --event-text: #721c24; /* Dark Red */
+}
+
+/* Autumn Theme */
+body[data-theme='autumn'] {
+    --body-bg: #fff8e1; /* Light Cream */
+    --header-bg: #ff8f00; /* Amber/Orange */
+    --header-text: #ffffff;
+    --button-bg: #d84315; /* Deep Orange */
+    --button-hover-bg: #bf360c;
+    --grid-bg: #ffcc80; /* Light Orange */
+    --day-header-bg: #ffe0b2; /* Lighter Orange */
+    --day-header-text: #e65100; /* Dark Orange */
+    --day-bg: #fffdf9; 
+    --day-text: #4e342e; /* Brown */
+    --date-number-text: #bf360c; /* Dark Orange/Red */
+    --event-bg: #ffccbc; /* Light Coral */
+    --event-text: #b71c1c; /* Dark Red */
+}
+
 body, html {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     height: 100vh; /* Use viewport height */
     display: flex;
     flex-direction: column;
-    background-color: #f0f2f5; /* Lighter grey background */
+    background-color: var(--body-bg); /* Use variable */
+    color: var(--day-text); /* Use variable */
     overflow: hidden; /* Prevent body scrollbars */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header {
@@ -15,10 +211,26 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #ffffff; /* White header */
-    color: #1c1e21; /* Dark text */
-    border-bottom: 1px solid #d9dde1;
+    background-color: var(--header-bg); /* Use variable */
+    color: var(--header-text); /* Use variable */
+    border-bottom: 1px solid var(--grid-bg); /* Use variable */
     flex-shrink: 0; /* Prevent header from shrinking */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+header button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: var(--button-bg); /* Use variable */
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--header-text);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+header button:hover {
+    background-color: var(--button-hover-bg); /* Use variable */
 }
 
 header h1 {
@@ -27,62 +239,51 @@ header h1 {
     font-weight: 600;
 }
 
-header button {
-    padding: 8px 15px;
-    cursor: pointer;
-    background-color: #e4e6eb;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    color: #050505;
-    transition: background-color 0.2s ease;
-}
-
-header button:hover {
-    background-color: #d8dadf;
-}
-
 main#calendar-grid {
     flex-grow: 1; /* Allows the grid to fill available space */
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* 7 days a week */
     /* grid-template-rows set by JS using fr units */
     gap: 1px; /* Grid line */
-    background-color: #d9dde1; /* Grid line color */
-    border-top: 1px solid #d9dde1; /* Use border-top instead of full border */
+    background-color: var(--grid-bg); /* Use variable - Grid line color */
+    border-top: 1px solid var(--grid-bg); /* Use variable */
     overflow: hidden; /* Prevent internal scrollbars on the main grid */
     width: 100%;
     /* height: 100%; Remove explicit height, rely on flex-grow */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .calendar-day-header,
 .calendar-day {
-    background-color: #ffffff; /* White cells */
+    background-color: var(--day-bg); /* Use variable - White cells */
     padding: 4px 6px; /* Slightly reduced padding */
     display: flex;
     flex-direction: column;
     position: relative; /* For date number or other elements */
     overflow: hidden; /* Hide overflow within the cell */
     /* The minmax(0, 1fr) in grid-template-rows should handle height */
+    transition: background-color 0.3s ease;
 }
 
 .calendar-day-header {
     font-weight: 600;
     text-align: center;
-    background-color: #f0f2f5; /* Slightly different bg for header */
-    color: #606770;
+    background-color: var(--day-header-bg); /* Use variable - Slightly different bg for header */
+    color: var(--day-header-text); /* Use variable */
     padding: 8px 5px; /* Keep header padding */
     /* Headers don't need flex/overflow like day cells */
     display: block;
     flex-shrink: 0; /* Prevent header from shrinking if flex applied */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .date-number {
     font-size: 0.8em; /* Slightly smaller date */
-    color: #606770;
+    color: var(--date-number-text); /* Use variable */
     margin-bottom: 3px; /* Reduced margin */
     text-align: right;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .day-events {
@@ -90,7 +291,7 @@ main#calendar-grid {
     overflow-y: auto; /* Allow scrolling within a day if many events */
     flex-grow: 1; /* Allow event container to fill space */
     scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #ccc #eee; /* Firefox */
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* Use variables */
     /* Add min-height to prevent collapsing when empty */
     min-height: 20px;
 }
@@ -100,16 +301,15 @@ main#calendar-grid {
     width: 6px;
 }
 .day-events::-webkit-scrollbar-track {
-    background: #eee;
+    background: var(--scrollbar-track); /* Use variable */
 }
 .day-events::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+    background-color: var(--scrollbar-thumb); /* Use variable */
     border-radius: 3px;
 }
 
-
 .event {
-    background-color: #e7f3ff; /* Lighter blue event background */
+    background-color: var(--event-bg); /* Use variable - Light blue event background */
     border-left: 3px solid #1877f2; /* Facebook blue accent */
     padding: 3px 6px;
     margin-bottom: 4px;
@@ -120,6 +320,8 @@ main#calendar-grid {
     font-size: 0.9em;
     line-height: 1.3;
     cursor: default; /* Indicate it's not interactive by default */
+    color: var(--event-text); /* Use variable */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .event:hover {

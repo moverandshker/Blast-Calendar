@@ -1,10 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calendarGrid = document.getElementById('calendar-grid');
-    const monthYearTitle = document.getElementById('month-year-title');
+    const monthYearTitle = document.getElementById('month-year');
     const prevMonthButton = document.getElementById('prev-month');
     const nextMonthButton = document.getElementById('next-month');
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const bodyElement = document.body;
 
     let currentMoment = new Date(); // Use native Date for simplicity now
+
+    const detectedTheme = bodyElement.dataset.theme || 'default';
+    let userPrefersDefault = localStorage.getItem('forceDefaultTheme') === 'true';
+
+    // Apply user preference on load if applicable
+    if (userPrefersDefault && detectedTheme !== 'default') {
+        bodyElement.dataset.theme = 'default';
+    }
+
+    // --- Theme Toggle Logic ---
+    if (detectedTheme === 'default') {
+        // Hide toggle if no special theme is active initially
+        // AND the user hasn't previously forced default (edge case)
+        if (themeToggleButton && !userPrefersDefault) { 
+            themeToggleButton.style.display = 'none';
+        }
+    } else {
+        // Show the button if a theme is detected (it might be hidden by default)
+        if (themeToggleButton) themeToggleButton.style.display = 'inline-block'; 
+        
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const currentTheme = bodyElement.dataset.theme;
+                const newTheme = (currentTheme === 'default') ? detectedTheme : 'default';
+                bodyElement.dataset.theme = newTheme;
+
+                // Update localStorage
+                if (newTheme === 'default') {
+                    localStorage.setItem('forceDefaultTheme', 'true');
+                } else {
+                    localStorage.removeItem('forceDefaultTheme');
+                }
+            });
+        }
+    }
+    // -------------------------
 
     async function fetchEvents(year, month) {
         console.log(`Fetching events for ${year}-${month}...`);
