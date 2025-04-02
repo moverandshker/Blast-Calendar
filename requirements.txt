@@ -1,0 +1,5 @@
+Flask
+requests
+icalendar
+python-dotenv
+pytz # For timezone handling
